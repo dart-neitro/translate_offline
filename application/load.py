@@ -2,11 +2,11 @@
 load english - russian dictionary
 from file to mongo db
 """
-
 import re
 
 from application.app.core.db_utils import MongoDB
 
+import config
 
 text = ''
 with open('data/Mueller24.koi', "rb") as f:
@@ -84,26 +84,16 @@ while True:
         print('FATALL ERROR in <<< %s >>>' % line)
         line = split_text.pop(0)
 
-client = MongoDB()
+if config.MONGODB_HOST and config.MONGODB_PORT:
+    client = MongoDB(config.MONGODB_HOST, config.MONGODB_PORT)
+else:
+    client = MongoDB()
 
+
+words = client.get_collection('translate_offline', 'words')
+words.insert(results)
 
 print('errors =', len(errors))
 print('results =', len(results))
-
-del text
-
-"""
-for data in reference_words:
-    print(
-        'key = ', data['key'],
-        ',  eng = ', data['eng'],
-        ',  rus = ', data['rus'],
-
-    )
-"""
-
-# print(reference_words)
-
-# print(len(text))
 
 print('The end!')

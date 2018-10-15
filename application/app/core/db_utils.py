@@ -87,7 +87,7 @@ class MongoDB:
         """
         collection = self.get_collection(db_name, collection_name)
         results = collection.insert(values)
-        return [x.insert_id for x in results]
+        return [x for x in results]
 
     def select(self,  db_name: str, collection_name: str, condition: dict={}):
         """
@@ -98,4 +98,6 @@ class MongoDB:
 
         :return:
         """
+        collection = self.get_collection(db_name, collection_name)
+
         return
