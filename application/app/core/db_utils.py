@@ -21,7 +21,7 @@ class MongoDB:
         """
 
         self._host = host
-        self._port = port
+        self._port = int(port)
         self._connect()
 
     def __del__(self):
